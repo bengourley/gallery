@@ -33,7 +33,7 @@ captionTemplate = _.template(
 function Gallery(options) {
 
   var defaults =
-    { interval: 2000
+    { interval: 5000
     , transitionTime: 300
     , viewingHeight: 500
     , thumbnailSize:
