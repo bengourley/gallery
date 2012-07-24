@@ -50,7 +50,6 @@ function Gallery(options) {
   this.previous = []
   this.interval = null
   this.loop = true
-  this.imageShown = false
 
   // Ensure required option is set
   if (typeof this.options.selector === 'undefined') {
@@ -125,8 +124,6 @@ Gallery.prototype.goTo = function (index, pause) {
   var image = this.images[index]
 
   if (this.current) this.previous.push(this.current)
-
-  this.imageShown = false
 
   // Show loader
   this.el.loading.css({ display: 'block', opacity: 0 })
@@ -280,6 +277,11 @@ Gallery.prototype._renderImage = function (image, callback) {
 
   $(img).on('load', handleLoad)
   $(img).on('error', handleLoad)
+
+  $(this).on('change', function () {
+    $(img).off('load')
+    $(img).off('error')
+  })
   img.src = image.full
 
   return this
@@ -466,9 +468,6 @@ Gallery.prototype._handleResize = function () {
 }
 
 Gallery.prototype._showNextImage = function () {
-
-  if (this.imageShown) return this
-  this.imageShown = true
 
   // Hide loader
   this.el.loading.stop().animate({

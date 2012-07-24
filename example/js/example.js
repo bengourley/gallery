@@ -15,8 +15,8 @@
   var i = 1
   while (i <= 10) {
     images.push({
-        full: './images/' + pad(i) + '.jpg'
-      , thumb: './images/' + pad(i) + '-thumb.jpg'
+        full: 'http://bengourley.github.com/gallery/example//images/' + pad(i) + '.jpg'
+      , thumb: 'http://bengourley.github.com/gallery/example//images/' + pad(i) + '-thumb.jpg'
       , caption: 'This is image number ' + i
       , credit: 'Flickr User'
     })
