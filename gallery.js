@@ -2,7 +2,6 @@
 
 var structureTemplate
   , captionTemplate
-  , morpheus = window.morpheus
 
 structureTemplate = _.template(
   [ '<div class="gallery-container">'
@@ -46,12 +45,12 @@ function Gallery(options) {
   if (!(this instanceof Gallery)) return new Gallery(options)
 
   // Merge defaults and custom options
-  this.options = _.extend({}, options, defaults)
+  this.options = _.extend({}, defaults, options)
 
-  this.showNextImage = function () {}
   this.previous = []
   this.interval = null
   this.loop = true
+  this.imageShown = false
 
   // Ensure required option is set
   if (typeof this.options.selector === 'undefined') {
@@ -87,7 +86,7 @@ Gallery.prototype.images = function (images) {
 }
 
 /**
- * Transition to the next slide.
+ * Transition to the next image.
  */
 Gallery.prototype.next = function (pause) {
   this.goTo(this.index + 1, pause)
@@ -95,7 +94,7 @@ Gallery.prototype.next = function (pause) {
 }
 
 /**
- * Transition to the previous slide.
+ * Transition to the previous image.
  */
 Gallery.prototype.prev = function (pause) {
   this.goTo(this.index - 1, pause)
@@ -103,20 +102,20 @@ Gallery.prototype.prev = function (pause) {
 }
 
 /**
- * Transition to slide `index`. If `pause` is truthy,
+ * Transition to image `index`. If `pause` is truthy,
  * the autoplay will be paused.
  */
 Gallery.prototype.goTo = function (index, pause) {
 
   if (pause) clearInterval(this.interval)
 
-  // Loop back to zero
+  // Loop back to zero?
   if (index === this.images.length && this.options.loop) {
     index = 0
   }
 
-  // Don't error if asked to go to a slide that
-  // doesn't exist, or the current slide. Return silently
+  // Don't error if asked to go to an image that
+  // doesn't exist, or the current image. Return silently
   if (index < 0 || index >= this.images.length || index === this.index) {
     return this
   }
@@ -127,36 +126,15 @@ Gallery.prototype.goTo = function (index, pause) {
 
   if (this.current) this.previous.push(this.current)
 
-  this.showNextImage = _.bind(function (el) {
+  this.imageShown = false
 
-    this.current = el
+  // Show loader
+  this.el.loading.css({ display: 'block', opacity: 0 })
+  this.el.loading.stop().animate({
+    opacity: 1
+  }, 50)
 
-    this.current.css({
-      opacity: 0
-    })
-
-    this.el.main.prepend(this.current)
-
-    morpheus(this.current[0], {
-        opacity: 1
-      , duration: 300
-    })
-
-    this._updateImage(el)
-
-    this.el.caption.empty()
-      .append(captionTemplate({
-          index: index + 1
-        , total: this.images.length
-        , caption: image.caption
-        , credit: image.credit
-      }))
-
-    this._clearPrevious()
-
-  }, this)
-
-  this._renderSlide(image, this.showNextImage)
+  this._renderImage(image, _.bind(this._showNextImage, this))
 
   this.index = index
   return this
@@ -164,7 +142,7 @@ Gallery.prototype.goTo = function (index, pause) {
 }
 
 /**
- * Pause the autaplay feature.
+ * Pause the autoplay feature.
  */
 Gallery.prototype.pause = function () {
   clearInterval(this.interval)
@@ -256,7 +234,7 @@ Gallery.prototype._renderStructure = function () {
     .append(prev)
     .append(next)
 
-  // Hide controls at first/last slides
+  // Hide controls at first/last images
   $(this).on('change', _.bind(function (e, i) {
     if (i === 0) {
       prev.addClass('disabled')
@@ -275,18 +253,9 @@ Gallery.prototype._renderStructure = function () {
 }
 
 /**
- * Render a single slide
+ * Render a single image
  */
-Gallery.prototype._renderSlide = function (image, callback) {
-
-  this.el.loading.css({
-      display: 'block'
-    , opacity: 0
-  })
-  var loadingShow = morpheus(this.el.loading[0], {
-      opacity: 1
-    , duration: 50
-  })
+Gallery.prototype._renderImage = function (image, callback) {
 
   var img = new Image()
 
@@ -298,17 +267,7 @@ Gallery.prototype._renderSlide = function (image, callback) {
             height: img.height, width: img.width
           })
 
-        loadingShow.stop()
-        morpheus(this.el.loading[0], {
-            opacity: 0
-          , duration: 50
-          , complete: _.bind(function () {
-              this.el.loading.css({
-                  display: 'block'
-                , opacity: 0
-              })
-            }, this)
-        })
+        this.current = i
         callback(i)
 
       }, this)
@@ -352,21 +311,19 @@ Gallery.prototype._renderThumbReel = function () {
       // Offscreen to the right
       var last = track.find('.gallery-thumbnail').last()
 
-      morpheus(track[0], {
+      track.stop().animate({
           left: Math.max(
               -(thumb.position().left + thumb.width() - track.parent().width())
             , -(last.position().left + last.width() - track.parent().width())
             )
-        , duration: 300
-      })
+      }, 300)
 
     } else if (-thumb.position().left > parseInt(track.css('left'), 10)) {
 
       // Offscreen to the left
-      morpheus(track[0], {
+      track.stop().animate({
           left: -thumb.position().left
-        , duration: 300
-      })
+      }, 300)
 
     }
 
@@ -378,26 +335,24 @@ Gallery.prototype._renderThumbReel = function () {
       var last = track.find('.gallery-thumbnail').last()
         , left = parseInt(track.css('left'), 10)
 
-      morpheus(track[0], {
+      track.stop().animate({
           left: Math.max(
             left - track.parent().width(),
             -(last.position().left + last.width() - track.parent().width())
           )
-        , duration: 300
-      })
+      }, 300)
     }, this))
 
   this.el.thumbReel.find('.gallery-thumb-reel-left')
     .on('click', _.bind(function () {
       this.pause()
       var left = parseInt(track.css('left'), 10)
-      morpheus(track[0], {
+      track.stop().animate({
           left: Math.min(
             left + track.parent().width(),
             0
           )
-        , duration: 300
-      })
+      }, 300)
     }, this))
 
   return this
@@ -510,16 +465,56 @@ Gallery.prototype._handleResize = function () {
 
 }
 
+Gallery.prototype._showNextImage = function () {
+
+  if (this.imageShown) return this
+  this.imageShown = true
+
+  // Hide loader
+  this.el.loading.stop().animate({
+    opacity: 0
+  }, 50, _.bind(function () {
+    this.el.loading.css({
+        display: 'block'
+      , opacity: 0
+    })
+  }, this))
+
+  this.current.css({
+    opacity: 0
+  })
+
+  this.el.main.prepend(this.current)
+
+  this.current.stop().animate({
+    opacity: 1
+  }, 300)
+
+  this._updateImage(this.current)
+
+  this.el.caption.empty()
+    .append(captionTemplate({
+        index: this.index + 1
+      , total: this.images.length
+      , caption: this.images[this.index].caption
+      , credit: this.images[this.index].credit
+    }))
+
+  this._clearPrevious()
+
+  return this
+
+}
+
 Gallery.prototype._clearPrevious = function () {
   var previous
   while (this.previous.length) {
     previous = this.previous.pop()
-    morpheus(previous, {
-        opacity: 0
-      , duration: 300
-      , complete: previous.remove
-    })
+    previous.stop().animate({
+      opacity: 0
+    }, 300, _.bind(previous.remove, previous))
   }
+  return this
 }
 
 // Expose constructor publicly

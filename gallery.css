@@ -1,0 +1,66 @@
+/**
+ * Structural Gallery Styles
+ */
+.gallery-main {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.gallery-main img {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  -ms-interpolation-mode: bicubic;
+}
+.gallery-caption {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+.gallery-thumb-reel {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.gallery-thumb-reel-track {
+  margin: 0;
+  padding: 0;
+  width: 999999px;
+  position: absolute;
+  left: 0;
+}
+.gallery-thumb-reel-viewport {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+}
+.gallery-thumb-reel-left,
+.gallery-thumb-reel-right {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 20px;
+}
+.gallery-thumb-reel-left {
+  margin: 0;
+  padding: 0;
+  left: 0;
+}
+.gallery-thumb-reel-right {
+  margin: 0;
+  padding: 0;
+  right: 0;
+}
+.gallery-thumbnail {
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+/* Debug */
