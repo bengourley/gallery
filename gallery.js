@@ -46,7 +46,7 @@ function Gallery(options) {
   if (!(this instanceof Gallery)) return new Gallery(options)
 
   // Merge defaults and custom options
-  this.options = _.extend({}, defaults, options)
+  this.options = _.extend({}, options, defaults)
 
   this.renderSlideCallback = function () {}
   this.interval = null
