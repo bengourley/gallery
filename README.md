@@ -37,6 +37,14 @@ gallery.images([
   , { ... }
 ])
 
+// Each image object should look like this:
+//
+// { full: '...' // Path to fullsize image
+// , thumb: '...' // Path to thumbnail image
+// , caption: '...' // Image caption
+// , credit: '...' // Image credit
+// }
+
 // Begin looping through the images (which
 // pauses once user input is received)
 gallery.start()
