@@ -87,7 +87,7 @@ Gallery.prototype.images = function (images) {
 }
 
 /**
- * Transition to the next slide.
+ * Transition to the next image.
  */
 Gallery.prototype.next = function (pause) {
   this.goTo(this.index + 1, pause)
@@ -95,7 +95,7 @@ Gallery.prototype.next = function (pause) {
 }
 
 /**
- * Transition to the previous slide.
+ * Transition to the previous image.
  */
 Gallery.prototype.prev = function (pause) {
   this.goTo(this.index - 1, pause)
@@ -103,7 +103,7 @@ Gallery.prototype.prev = function (pause) {
 }
 
 /**
- * Transition to slide `index`. If `pause` is truthy,
+ * Transition to image `index`. If `pause` is truthy,
  * the autoplay will be paused.
  */
 Gallery.prototype.goTo = function (index, pause) {
@@ -115,8 +115,8 @@ Gallery.prototype.goTo = function (index, pause) {
     index = 0
   }
 
-  // Don't error if asked to go to a slide that
-  // doesn't exist, or the current slide. Return silently
+  // Don't error if asked to go to an image that
+  // doesn't exist, or the current image. Return silently
   if (index < 0 || index >= this.images.length || index === this.index) {
     return this
   }
@@ -156,7 +156,7 @@ Gallery.prototype.goTo = function (index, pause) {
 
   }, this)
 
-  this._renderSlide(image, this.showNextImage)
+  this._renderImage(image, this.showNextImage)
 
   this.index = index
   return this
@@ -164,7 +164,7 @@ Gallery.prototype.goTo = function (index, pause) {
 }
 
 /**
- * Pause the autaplay feature.
+ * Pause the autoplay feature.
  */
 Gallery.prototype.pause = function () {
   clearInterval(this.interval)
@@ -256,7 +256,7 @@ Gallery.prototype._renderStructure = function () {
     .append(prev)
     .append(next)
 
-  // Hide controls at first/last slides
+  // Hide controls at first/last images
   $(this).on('change', _.bind(function (e, i) {
     if (i === 0) {
       prev.addClass('disabled')
@@ -275,9 +275,9 @@ Gallery.prototype._renderStructure = function () {
 }
 
 /**
- * Render a single slide
+ * Render a single image
  */
-Gallery.prototype._renderSlide = function (image, callback) {
+Gallery.prototype._renderImage = function (image, callback) {
 
   this.el.loading.css({
       display: 'block'

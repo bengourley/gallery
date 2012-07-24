@@ -1,8 +1,8 @@
 gallery
 =======
 
-A responsive JS gallery. This gallery on contains the
-basic structural styles required to make it function and
+A responsive JS gallery. This gallery contains only the
+structural styles required to make it function, so it is
 is completely skinnable.
 
 *Browser Support*: IE6+, Chrome, Firefox, Safari
@@ -74,4 +74,52 @@ an object with some of the following properties:
 - `viewingHeight`: Optional. The amount of height for the image viewing area. Default: 500
 - `thumbnailSize`: Optional. An object describing the desired thumbnail size. Default: `{ height: 78, width: 128 }`
 
-...to be continued...
+
+## gallery.images(images)
+
+Pass in the images you want the gallery to display. `images` should be an
+array of objects with the following properties:
+
+- `full`: Required. The url to the fullsize image.
+- `thumb`: Required. The url to the thumbnail image.
+- `caption`: Required. The image caption.
+- `credit`: Required. The image credit.
+
+`gallery.images(...)` must be called before any of the other API methods, otherwise
+the gallery will have no images to use. This method does not actually load the images,
+so you don't have to wait (or pass in a callback) before calling other methods. That means
+you can also chain the API calls:
+
+```js
+var gallery = new Gallery(...)
+  , images = [ ... ]
+
+gallery
+  .images(images)
+  .play()
+```
+
+## gallery.goTo(index, pause)
+
+Transition to image number `index`. If `pause` is truthy,
+the autoplay will be paused.
+
+## gallery.next(pause)
+
+Transition to the next image. Passes `pause` on to `gallery.goTo()`.
+
+## gallery.prev(pause)
+
+Transition to the previous image. Passes `pause` on to `gallery.goTo()`.
+
+## gallery.play(index)
+
+Run through images automatically. Starts from `index` (optional defaulting to 0).
+
+## gallery.pause()
+
+Pauses the play feature.
+
+## gallery.resume()
+
+Resume the play feature from the current image.
