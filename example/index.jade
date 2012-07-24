@@ -1,0 +1,27 @@
+!!!5
+html
+  head
+    title Gallery
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='./css/site.css')
+  body
+    .container
+      header
+        h1.site-title The Courier
+        nav.main-nav: ul
+          li: a(href='#') Home
+          li: a(href='#') News
+          li: a(href='#') Sport
+          li: a(href='#') Business
+          li: a(href='#') Lifestyle
+          li: a(href='#') Opinion
+
+      h1.page-title Gallery Name
+      .gallery
+
+    //- Scripts
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    script(src='../morpheus.min.js')
+    script(src='../underscore.min.js')
+    script(src='../gallery.js')
+    script(src='./js/example.js')
