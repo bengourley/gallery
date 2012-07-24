@@ -5,6 +5,8 @@ A responsive JS gallery. This gallery on contains the
 basic structural styles required to make it function and
 is completely skinnable.
 
+*Browser Support*: IE6+, Chrome, Firefox, Safari
+
 A demo can be found at: http://bengourley.github.com/gallery/example/
 
 ## Dependencies:
@@ -17,6 +19,10 @@ a CDN.
 # Usage:
 
 ```html
+<!-- HEAD -->
+<link rel="stylesheet" href="gallery.css"/>
+
+<!-- BODY -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="morpheus.min.js"></script>
 <script src="underscore.min.js"></script>
