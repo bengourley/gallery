@@ -3,7 +3,7 @@
   var Gallery = window.Gallery
     , options =
       { selector: '.gallery'
-      , interval: 2000
+      , interval: 3000
       , transitionTime: 300
       }
     , images = []
