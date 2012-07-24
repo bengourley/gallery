@@ -33,7 +33,7 @@ captionTemplate = _.template(
 function Gallery(options) {
 
   var defaults =
-    { interval: 2000
+    { interval: 5000
     , transitionTime: 300
     , viewingHeight: 500
     , thumbnailSize:
@@ -48,7 +48,8 @@ function Gallery(options) {
   // Merge defaults and custom options
   this.options = _.extend({}, options, defaults)
 
-  this.renderSlideCallback = function () {}
+  this.showNextImage = function () {}
+  this.previous = []
   this.interval = null
   this.loop = true
 
@@ -122,10 +123,11 @@ Gallery.prototype.goTo = function (index, pause) {
 
   $(this).trigger('change', index)
 
-  var previous = this.current
-    , image = this.images[index]
+  var image = this.images[index]
 
-  this.renderSlideCallback = _.bind(function (el) {
+  if (this.current) this.previous.push(this.current)
+
+  this.showNextImage = _.bind(function (el) {
 
     this.current = el
 
@@ -150,19 +152,11 @@ Gallery.prototype.goTo = function (index, pause) {
         , credit: image.credit
       }))
 
-    if (previous) {
-      morpheus(previous[0], {
-          opacity: 0
-        , duration: 300
-        , complete: function () {
-          previous.remove()
-        }
-      })
-    }
+    this._clearPrevious()
 
   }, this)
 
-  this._renderSlide(image, this.renderSlideCallback)
+  this._renderSlide(image, this.showNextImage)
 
   this.index = index
   return this
@@ -514,6 +508,18 @@ Gallery.prototype._handleResize = function () {
   this._updateImage(this.current)
   return this
 
+}
+
+Gallery.prototype._clearPrevious = function () {
+  var previous
+  while (this.previous.length) {
+    previous = this.previous.pop()
+    morpheus(previous, {
+        opacity: 0
+      , duration: 300
+      , complete: previous.remove
+    })
+  }
 }
 
 // Expose constructor publicly
