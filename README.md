@@ -11,10 +11,14 @@ A demo can be found at: http://bengourley.github.com/gallery/example/
 
 ## Dependencies:
 
-This gallery depends on jQuery (DOM & events), Underscore (utilities)
-and Morpheus (animation). The latter two are included in this repository
-(with their respective licenses). It is recommended that you get jQuery from
-a CDN.
+This gallery depends on jQuery (DOM, events and animation) and Underscore
+(templates, utilites). To take advantage of CSS transitions in capable
+browsers, include https://github.com/benbarnett/jQuery-Animate-Enhanced/
+on the page.
+
+It is up to you to ensure these dependencies exist. In the example, these are
+hotlinked from Google's CDN and GitHub. You should do something better in
+production.
 
 # Usage:
 
@@ -23,14 +27,14 @@ a CDN.
 <link rel="stylesheet" href="gallery.css"/>
 
 <!-- BODY -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="morpheus.min.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.animate-enhanced.min.js"></script>
 <script src="underscore.min.js"></script>
-<script src="gallery.js"></script>
+<script src="gallery.min.js"></script>
 <script src="my-gallery.js"></script>
 ```
 
-`my-gallery.js`
+**my-gallery.js:**
 ```js
 
 // Instantiate a gallery object
@@ -123,3 +127,6 @@ Pauses the play feature.
 ## gallery.resume()
 
 Resume the play feature from the current image.
+
+# Licence
+Licenced under the [New BSD License](http://opensource.org/licenses/bsd-license.php)

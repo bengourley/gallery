@@ -1,3 +1,10 @@
+/**
+ * gallery.js
+ * ==========
+ * https://github.com/bengourley/gallery
+ * Licenced under the New BSD License
+*/
+
 (function () {
 
 var structureTemplate
@@ -27,7 +34,7 @@ captionTemplate = _.template(
   ].join('\n'))
 
 /**
- *  Construct a Gallery object
+ * Construct a Gallery object
  */
 function Gallery(options) {
 
