@@ -123,3 +123,6 @@ Pauses the play feature.
 ## gallery.resume()
 
 Resume the play feature from the current image.
+
+# Licence
+Licenced under the [New BSD License](http://opensource.org/licenses/bsd-license.php)
