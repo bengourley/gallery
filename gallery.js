@@ -306,7 +306,6 @@ Gallery.prototype._renderThumbReel = function () {
   $(this).on('change', function (e, index) {
     var thumb = track.find('.gallery-thumbnail').eq(index)
 
-
     if (thumb.position().left + thumb.width() >
         track.parent().width() - parseInt(track.css('left'), 10)) {
 
@@ -333,21 +332,34 @@ Gallery.prototype._renderThumbReel = function () {
 
   this.el.thumbReel.find('.gallery-thumb-reel-right')
     .on('click', _.bind(function () {
+
       this.pause()
+
       var last = track.find('.gallery-thumbnail').last()
         , left = parseInt(track.css('left'), 10)
+        , leftMax = -(last.position().left +
+                              last.width() -
+                   track.parent().width())
+
+      // Already scrolled to the end
+      if (left === leftMax) {
+        return
+      }
 
       track.stop().animate({
           left: Math.max(
             left - track.parent().width(),
-            -(last.position().left + last.width() - track.parent().width())
+            leftMax
           )
       }, 300)
+
     }, this))
 
   this.el.thumbReel.find('.gallery-thumb-reel-left')
     .on('click', _.bind(function () {
+
       this.pause()
+
       var left = parseInt(track.css('left'), 10)
       track.stop().animate({
           left: Math.min(
@@ -355,6 +367,7 @@ Gallery.prototype._renderThumbReel = function () {
             0
           )
       }, 300)
+
     }, this))
 
   return this
@@ -467,6 +480,9 @@ Gallery.prototype._handleResize = function () {
 
 }
 
+/**
+ * Animate in the image at this.current
+ */
 Gallery.prototype._showNextImage = function () {
 
   // Hide loader
