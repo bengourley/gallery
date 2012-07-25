@@ -1,9 +1,10 @@
 /**
  * gallery.js
  * ==========
- * https://github.com/bengourley/
+ * https://github.com/bengourley/gallery
  * Licenced under the New BSD License
 */
+
 (function () {
 
 var structureTemplate
