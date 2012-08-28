@@ -12,9 +12,7 @@ A demo can be found at: http://bengourley.github.com/gallery/example/
 ## Dependencies:
 
 This gallery depends on jQuery (DOM, events and animation) and Underscore
-(templates, utilites). To take advantage of CSS transitions in capable
-browsers, include https://github.com/benbarnett/jQuery-Animate-Enhanced/
-on the page.
+(templates, utilites).
 
 It is up to you to ensure these dependencies exist. In the example, these are
 hotlinked from Google's CDN and GitHub. You should do something better in
@@ -28,7 +26,6 @@ production.
 
 <!-- BODY -->
 <script src="jquery.min.js"></script>
-<script src="jquery.animate-enhanced.min.js"></script>
 <script src="underscore.min.js"></script>
 <script src="gallery.min.js"></script>
 <script src="my-gallery.js"></script>
