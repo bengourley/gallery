@@ -533,7 +533,7 @@ Gallery.prototype._clearPrevious = function () {
   var previous
   while (this.previous.length) {
     previous = this.previous.pop()
-    previous.stop().[this.options.animateFn]({
+    previous.stop()[this.options.animateFn]({
       opacity: 0
     }, 300, _.bind(previous.remove, previous))
   }
