@@ -46,6 +46,7 @@ function Gallery(options) {
       { height: 78
       , width: 128
       }
+      , animateFn: 'animate'
     }
 
   // Calling Gallery without 'new' is ok...
@@ -134,7 +135,7 @@ Gallery.prototype.goTo = function (index, pause) {
 
   // Show loader
   this.el.loading.css({ display: 'block', opacity: 0 })
-  this.el.loading.stop().animate({
+  this.el.loading.stop()[this.options.animateFn]({
     opacity: 1
   }, 50)
 
@@ -319,7 +320,7 @@ Gallery.prototype._renderThumbReel = function () {
       // Offscreen to the right
       var last = track.find('.gallery-thumbnail').last()
 
-      track.stop().animate({
+      track.stop()[this.options.animateFn]({
           left: Math.max(
               -(thumb.position().left + thumb.width() - track.parent().width())
             , -(last.position().left + last.width() - track.parent().width())
@@ -329,7 +330,7 @@ Gallery.prototype._renderThumbReel = function () {
     } else if (-thumb.position().left > parseInt(track.css('left'), 10)) {
 
       // Offscreen to the left
-      track.stop().animate({
+      track.stop()[this.options.animateFn]({
           left: -thumb.position().left
       }, 300)
 
@@ -353,7 +354,7 @@ Gallery.prototype._renderThumbReel = function () {
         return
       }
 
-      track.stop().animate({
+      track.stop()[this.options.animateFn]({
           left: Math.max(
             left - track.parent().width(),
             leftMax
@@ -368,7 +369,7 @@ Gallery.prototype._renderThumbReel = function () {
       this.pause()
 
       var left = parseInt(track.css('left'), 10)
-      track.stop().animate({
+      track.stop()[this.options.animateFn]({
           left: Math.min(
             left + track.parent().width(),
             0
@@ -493,7 +494,7 @@ Gallery.prototype._handleResize = function () {
 Gallery.prototype._showNextImage = function () {
 
   // Hide loader
-  this.el.loading.stop().animate({
+  this.el.loading.stop()[this.options.animateFn]({
     opacity: 0
   }, 50, _.bind(function () {
     this.el.loading.css({
@@ -508,7 +509,7 @@ Gallery.prototype._showNextImage = function () {
 
   this.el.main.prepend(this.current)
 
-  this.current.stop().animate({
+  this.current.stop()[this.options.animateFn]({
     opacity: 1
   }, 300)
 
@@ -532,7 +533,7 @@ Gallery.prototype._clearPrevious = function () {
   var previous
   while (this.previous.length) {
     previous = this.previous.pop()
-    previous.stop().animate({
+    previous.stop().[this.options.animateFn]({
       opacity: 0
     }, 300, _.bind(previous.remove, previous))
   }
