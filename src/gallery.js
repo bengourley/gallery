@@ -349,6 +349,11 @@ Gallery.prototype._renderThumbReel = function () {
                               last.width() -
                    track.parent().width())
 
+      // Items don't need to scroll
+      if (last.position().left + last.width() <= track.parent().width()) {
+        return
+      }
+
       // Already scrolled to the end
       if (left === leftMax) {
         return
