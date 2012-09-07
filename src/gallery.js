@@ -419,8 +419,8 @@ Gallery.prototype._renderThumb = function (image, index) {
         backgroundImage: 'url(' + image.thumb + ')'
       , backgroundRepeat: 'no-repeat'
       , backgroundPosition: 'center center'
-      , height: this.options.thumbnailSize.height - 4
-      , width: this.options.thumbnailSize.width - 4
+      , height: this.options.thumbnailSize.height
+      , width: this.options.thumbnailSize.width
     })
 
   el.append(img)
