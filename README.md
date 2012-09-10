@@ -54,7 +54,7 @@ gallery.images([
 
 // Begin looping through the images (which
 // pauses once user input is received)
-gallery.start()
+gallery.play()
 
 // or
 

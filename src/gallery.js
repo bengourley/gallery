@@ -185,6 +185,15 @@ Gallery.prototype.play = function (index) {
   return this
 }
 
+/*
+ * Update the viewing height to given height `h`.
+ */
+Gallery.prototype.updateViewingHeight = function (h) {
+  this.options.viewingHeight = h
+  this.el.main.height(h)
+  this._updateImage(this.current)
+}
+
 // Private API
 
 /**
