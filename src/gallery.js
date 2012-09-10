@@ -46,7 +46,8 @@ function Gallery(options) {
       { height: 78
       , width: 128
       }
-      , animateFn: 'animate'
+    , thumbnailTrackHeight: 78
+    , animateFn: 'animate'
     }
 
   // Calling Gallery without 'new' is ok...
@@ -207,10 +208,10 @@ Gallery.prototype._renderStructure = function () {
 
   // Cache the thumbreel element and set structrual styles
   this.el.thumbReel = structure.find('.gallery-thumb-reel')
-    .height(this.options.thumbnailSize.height)
+    .height(this.options.thumbnailTrackHeight)
 
   this.el.thumbReel.find('.gallery-thumb-reel-viewport')
-    .height(this.options.thumbnailSize.height)
+    .height(this.options.thumbnailTrackHeight)
   this.el.thumbReel.find('.gallery-thumb-reel-left')
     .height(this.options.thumbnailSize.height)
   this.el.thumbReel.find('.gallery-thumb-reel-right')
