@@ -557,6 +557,12 @@ Gallery.prototype._clearPrevious = function () {
 
 // Expose constructor publicly
 
-window.Gallery = Gallery
+if (window.module && window.require && window.require.name === 'module.js') {
+  window.module('Gallery', function (module) {
+    module.exports = Gallery
+  })
+} else {
+  window.Gallery = Gallery
+}
 
 }())
