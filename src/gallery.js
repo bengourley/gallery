@@ -3,7 +3,7 @@
  * ==========
  * https://github.com/bengourley/gallery
  * Licenced under the New BSD License
-*/
+ */
 
 (function () {
 
