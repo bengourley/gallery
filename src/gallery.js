@@ -190,6 +190,23 @@ Gallery.prototype.updateViewingHeight = function (h) {
   this.options.viewingHeight = h
   this.el.main.height(h)
   this._updateImage(this.current)
+  return this
+}
+
+/**
+ * Add/remove no-scroll class from
+ * the thumbreel based on whether it
+ * it is full enough to scroll.
+ */
+Gallery.prototype.checkThumbScroll = function () {
+  var track = this.el.thumbReel.find('.gallery-thumb-reel-track')
+  , last = track.find('.gallery-thumbnail').last()
+
+  if (last.position().left + last.width() <= track.parent().width()) {
+    this.el.thumbReel.addClass('no-scroll')
+  } else {
+    this.el.thumbReel.removeClass('no-scroll')
+  }
 }
 
 // Private API
@@ -391,6 +408,8 @@ Gallery.prototype._renderThumbReel = function () {
 
     }, this))
 
+  this.checkThumbScroll()
+
   return this
 
 }
@@ -495,10 +514,8 @@ Gallery.prototype._updateImage = function (el) {
  * Handle a window#resize event
  */
 Gallery.prototype._handleResize = function () {
-
   this._updateImage(this.current)
   return this
-
 }
 
 /**
