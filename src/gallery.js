@@ -7,32 +7,6 @@
 
 (function () {
 
-var structureTemplate
-  , captionTemplate
-
-structureTemplate = _.template(
-  [ '<div class="gallery-container">'
-  , '  <div class="gallery-main">'
-  , '    <div class="gallery-controls"/>'
-  , '    <div class="gallery-caption"/>'
-  , '    <div class="gallery-loading">Loading…</div>'
-  , '  </div>'
-  , '  <div class="gallery-thumb-reel">'
-  , '    <button class="gallery-thumb-reel-left"><i>←</i></button>'
-  , '    <button class="gallery-thumb-reel-right"><i>→</i></button>'
-  , '    <div class="gallery-thumb-reel-viewport">'
-  , '      <div class="gallery-thumb-reel-track"/>'
-  , '    </div>'
-  , '  </div>'
-  , '</div>'
-  ].join('\n'))
-
-captionTemplate = _.template(
-  [ '<p class="gallery-caption-text"><%= caption %></p>'
-  , '<p class="gallery-caption-count"><%= index %> of <%= total %></p>'
-  , '<p class="gallery-caption-credit"> Image credit: <%= credit %></p>'
-  ].join('\n'))
-
 /**
  * Construct a Gallery object
  */
@@ -48,6 +22,8 @@ function Gallery(options) {
       }
     , thumbnailTrackHeight: 78
     , animateFn: 'animate'
+    , structureTemplate: this.structureTemplate
+    , captionTemplate: this.captionTemplate
     }
 
   // Calling Gallery without 'new' is ok...
@@ -65,14 +41,36 @@ function Gallery(options) {
     throw new Error('`selector` is a required option')
   }
 
+
   // Get root element
   this.root = $(this.options.selector)
-
   this.root.append(this._renderStructure())
-
   $(window).on('resize', _.bind(this._handleResize, this))
 
 }
+
+Gallery.prototype.structureTemplate = _.template(
+  [ '<div class="gallery-container">'
+  , '  <div class="gallery-main">'
+  , '    <div class="gallery-controls"/>'
+  , '    <div class="gallery-caption"/>'
+  , '    <div class="gallery-loading">Loading…</div>'
+  , '  </div>'
+  , '  <div class="gallery-thumb-reel">'
+  , '    <button class="gallery-thumb-reel-left"><i>←</i></button>'
+  , '    <button class="gallery-thumb-reel-right"><i>→</i></button>'
+  , '    <div class="gallery-thumb-reel-viewport">'
+  , '      <div class="gallery-thumb-reel-track"/>'
+  , '    </div>'
+  , '  </div>'
+  , '</div>'
+  ].join('\n'))
+
+Gallery.prototype.captionTemplate = _.template(
+  [ '<p class="gallery-caption-text"><%= caption %></p>'
+  , '<p class="gallery-caption-count"><%= index %> of <%= total %></p>'
+  , '<p class="gallery-caption-credit"> Image credit: <%= credit %></p>'
+  ].join('\n'))
 
 // Public API
 
@@ -206,7 +204,7 @@ Gallery.prototype._renderStructure = function () {
   this.el = {}
 
   // Render the template
-  var structure = $(structureTemplate({}))
+  var structure = $(this.options.structureTemplate({}))
 
   // Cache the main element and set structrual styles
   this.el.main = structure.find('.gallery-main')
@@ -531,12 +529,11 @@ Gallery.prototype._showNextImage = function () {
   this._updateImage(this.current)
 
   this.el.caption.empty()
-    .append(captionTemplate({
-        index: this.index + 1
+    .append(this.options.captionTemplate(_.extend(
+      { index: this.index + 1
       , total: this.images.length
-      , caption: this.images[this.index].caption
-      , credit: this.images[this.index].credit
-    }))
+      }
+      , this.images[this.index])))
 
   this._clearPrevious()
 
